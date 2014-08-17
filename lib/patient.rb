@@ -7,6 +7,6 @@ class Patient < ActiveRecord::Base
     private
 
   def capital_case_name
-    self.name = self.name.capitalize
+    self.name = self.name.capitalize!
   end
 end

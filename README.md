@@ -1,6 +1,6 @@
 About: This program stores doctors' names, patients' names, and appointments.
 
-Dependencies: rspec, postgresql, Active Record.
+Dependencies: rspec, postgresql, Active Record, Active Record Migrations.
 
 Set-up: There are three tables: 
   doctors table - name, specialty, serial id.  doctor 'has_many :patients'
