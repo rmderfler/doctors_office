@@ -1,6 +1,7 @@
 require 'active_record'
 require 'rspec'
 require 'doctor'
+require 'patient'
 
 ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))["test"])
 
