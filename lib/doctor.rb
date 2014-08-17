@@ -1,7 +1,8 @@
 class Doctor < ActiveRecord::Base
   has_many :patients
   has_many :appointments
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :presence => true
+  validates :name, :uniqueness => true
   before_save :capital_case_name
 
     private
