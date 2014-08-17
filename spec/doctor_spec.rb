@@ -13,4 +13,10 @@ describe Doctor do
     expect(doctor_2.save).to eq false
   end
 
+  it "capitalizes the name" do
+    doctor = Doctor.new(:name => 'detroit')
+    doctor.save
+    expect(doctor.name).to eq "Detroit"
+  end
+
 end
