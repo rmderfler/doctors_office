@@ -16,6 +16,7 @@ def menu
     puts "2: list doctors"
     puts "3: delete a doctor"
     puts "4: edit a doctor's name"
+    puts "5: add a patient"
     puts "0: exit"
 
     choice = gets.chomp
@@ -24,6 +25,7 @@ def menu
       when '2' then list_doctors
       when '3' then delete_doctor
       when '4' then edit_doctor
+      when '5' then add_patient
       when '0' then exit
       else
         puts "This is not a valid option"
@@ -60,6 +62,25 @@ def delete_doctor
   name = gets.chomp
   doctor = Doctor.find_by(:name => name)
   doctor.delete
+end
+
+
+def add_patient
+  puts "What is the name of the patient to add?"
+  name = gets.chomp
+  patient = Patient.create(:name => name)
+  if patient.save
+    puts "#{patient.name} has been added."
+  else
+    puts "That's not a valid name."
+    menu
+  end
+  puts "What is the name of the patient's doctor?  (exclude the letters 'Dr.')"
+  list_doctors
+  doctor_name = gets.chomp
+  doctor = Doctor.find_by(:name => doctor_name)
+  patient.update(:doctor_id => doctor.id)
+  puts "#{patient.name} with Dr. #{doctor.name} has been added."
 end
 
 menu
