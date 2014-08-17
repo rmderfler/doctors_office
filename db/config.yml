@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: doctor_development
+
+test:
+  adapter: postgresql
+  database: doctor_test
