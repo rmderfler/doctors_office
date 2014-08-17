@@ -17,6 +17,11 @@ def menu
     puts "3: delete a doctor"
     puts "4: edit a doctor's name"
     puts "5: add a patient"
+    puts "6: add an appointment"
+    puts "7: list appointments by doctor"
+    puts "8: list appointments by patient"
+    puts "9: edit an appointment"
+    puts "10: delete an appointment"
     puts "0: exit"
 
     choice = gets.chomp
@@ -26,6 +31,11 @@ def menu
       when '3' then delete_doctor
       when '4' then edit_doctor
       when '5' then add_patient
+      when '6' then add_appointment
+      when '7' then list_appointments_by_doctor
+      when '8' then list_appointments_by_patient    
+      when '9' then edit_appointment  
+      when '10' then delete_appointment  
       when '0' then exit
       else
         puts "This is not a valid option"
@@ -81,6 +91,57 @@ def add_patient
   doctor = Doctor.find_by(:name => doctor_name)
   patient.update(:doctor_id => doctor.id)
   puts "#{patient.name} with Dr. #{doctor.name} has been added."
+end
+
+
+def add_appointment
+  puts "Enter patient name"
+  patient = Patient.find_by(:name => gets.chomp)
+  puts "Enter doctor name"
+  doctor = Doctor.find_by(:name => gets.chomp)
+  puts "Enter date and time (0000-00-00 00:00)"
+  time = gets.chomp
+  appointment = Appointment.create(:patient_id => patient.id, :doctor_id => doctor.id, :datetime => time)
+  puts "Appointment added for #{patient.name} on #{appointment.datetime} with Dr. #{doctor.name}"
+end
+
+def list_appointments_by_doctor
+  puts "Enter doctor's name to list appointments (exclude the letters 'Dr.')"
+  doctor = Doctor.find_by(:name => gets.chomp)
+  puts "Dr. #{doctor.name} has the following appointments:"
+  doctor.appointments.each do |appointment|
+    patient = Patient.find_by(:id => appointment.patient_id) 
+    puts appointment.id, appointment.datetime, "with patient: " + patient.name
+    puts
+  end
+end
+
+def edit_appointment
+  list_appointments_by_doctor
+  puts "Choose appointment by number"
+  appointment = Appointment.find_by(:id => gets.chomp)
+  puts "Enter new date and time (0000-00-00 00:00)"
+  appointment.update(:datetime => gets.chomp)
+  puts "appointment updated"
+end
+
+def delete_appointment
+  list_appointments_by_doctor
+  puts "Choose appointment by number to delete"
+  appointment = Appointment.find_by(:id => gets.chomp)
+  appointment.delete
+  puts "appointment deleted"
+end
+
+def list_appointments_by_patient
+  puts "Enter patient's name to list appointments"
+  patient = Patient.find_by(:name => gets.chomp)
+  puts "#{patient.name} has the following appointments:"
+  patient.appointments.each do |appointment|
+    doctor = Doctor.find_by(:id => appointment.doctor_id) 
+    puts appointment.id, appointment.datetime, "with doctor: " + doctor.name
+    puts
+  end
 end
 
 menu
