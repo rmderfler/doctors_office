@@ -10,6 +10,8 @@ ActiveRecord::Base.establish_connection(YAML::load(File.open('./db/config.yml'))
 RSpec.configure do |config|
   config.after(:each) do
     Doctor.all.each { |doctor| doctor.destroy }
+    Patient.all.each { |patient| patient.destroy }
+    Appointment.all.each { |appointment| appointment.destroy }
 
   end
 end
