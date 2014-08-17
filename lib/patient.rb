@@ -4,7 +4,7 @@ class Patient < ActiveRecord::Base
   before_save :capital_case_name
   has_many :appointments
 
-  private
+    private
 
   def capital_case_name
     self.name = self.name.capitalize
