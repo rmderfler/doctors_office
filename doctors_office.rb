@@ -22,6 +22,7 @@ def menu
     puts "8: list appointments by patient"
     puts "9: edit an appointment"
     puts "10: delete an appointment"
+    puts "11: list next weeks appointments by doctor"
     puts "0: exit"
 
     choice = gets.chomp
@@ -34,8 +35,9 @@ def menu
       when '6' then add_appointment
       when '7' then list_appointments_by_doctor
       when '8' then list_appointments_by_patient    
-      when '9' then edit_appointment  
+      when '9' then edit_appointment   
       when '10' then delete_appointment  
+      when '11' then list_weeks_appointments_by_doctor 
       when '0' then exit
       else
         puts "This is not a valid option"
@@ -141,6 +143,17 @@ def list_appointments_by_patient
     doctor = Doctor.find_by(:id => appointment.doctor_id) 
     puts appointment.id, appointment.datetime, "with doctor: " + doctor.name
     puts
+  end
+end
+
+def list_weeks_appointments_by_doctor
+  puts "choose doctor by name (exclude the letters 'Dr.')"
+  list_doctors
+  doctor = Doctor.find_by(:name => gets.chomp)
+  puts "Here are the week's appointments:"
+  doctor.appointments.weeks_appointments(Date.today).each do |appointment|
+    patient = Patient.find_by(:id => appointment.patient_id) 
+    puts appointment.id, appointment.datetime, "with patient: " + patient.name 
   end
 end
 
